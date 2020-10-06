@@ -18,5 +18,6 @@ va2 = VisualArray(va.arr, va.colors, fig=fig, ax=ax)
 va2.permute(shape)
 va2.vizualize(fixview=True, axis_labels=('axis=0','axis=1','axis=2'))
 plt.get_current_fig_manager().window.state('zoomed')
+ax.azim, ax.elev = -115, 24
 plt.show()
 

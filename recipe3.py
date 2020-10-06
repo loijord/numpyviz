@@ -1,8 +1,6 @@
 """this is an example that demonstrates how to multiply three polynomials"""
 
 import numpy as np
-import matplotlib
-matplotlib.rcParams.update({'font.size': 8})
 import matplotlib.pyplot as plt
 from numpyviz import VisualArray
 

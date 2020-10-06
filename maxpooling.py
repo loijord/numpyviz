@@ -30,11 +30,12 @@ def argmin(arr):
     x, y, z, t = zip(*np.broadcast(a1, a2, a3, a4))
     return x, y, z, t
 
-# ax = fig.add_subplot(1, 3, 3, projection='3d')
-# va3 = VisualArray(new_arr, new_colors, fig=fig, ax=ax) #shape: (1, 8, 12)
-# ax.set_title(f'image.reshape{shape}.max(axis=(1,3))')
+ax = fig.add_subplot(1, 3, 3, projection='3d')
+va3 = VisualArray(new_arr, new_colors, fig=fig, ax=ax) #shape: (1, 8, 12)
+ax.set_title(f'image.reshape{shape}.max(axis=(1,3)) \n Not implemented yet')
+ax.axis('off')
 # va3.set_colors(argmin(new_arr), 'yellow')
-# va3.permute(shape)
-# va3.vizualize(fixview=True, axis_labels=('axis=0','axis=1','axis=2'))
+#va3.permute(shape)
+#va3.vizualize(fixview=True, axis_labels=('axis=0','axis=1','axis=2'))
 plt.show()
 
