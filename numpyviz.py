@@ -258,7 +258,6 @@ class VisualArray:
             raise ValueError('Permuting less than 4 dimensions is not accepted')
         shape_layer = np.ones(3).astype(int)
         shape_layer[:len(shape)-3]= shape[:-3]
-        print(shape_layer)
         self.reshape(np.array(shape[-3:]) * shape_layer)  # dynamical reshape of va2.arr and va2.colors
         cells = self.get_indices_chequerwise(window=shape[-3:])
         self.mix_colors(cells.T, 'black', r=0.4)
