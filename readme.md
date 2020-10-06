@@ -1,5 +1,5 @@
 This is a program that helps to visualise methods of `numpy` arrays. 
-It is designed to work in 3 dimensions but cal also be extended to no more than 6 dimensions.
+It is designed to work in 3 dimensions and can also be extended up to 6 dimensions.
 
 ### Usage
 Import these packages at the beginning of file:
