@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 from numpyviz import VisualArray
 
 arr = np.arange(90).reshape((6,3,5))
-coords = np.broadcast(*np.indices(arr.shape)) #indices of every cell
-cells = zip(*[c for c in coords if sum(c) % 3 == 0])
 va = VisualArray(arr)
-va.set_colors(cells, color='yellow', basecolor='lightblue')
+coords = va.get_indices()
+cells = coords[np.sum(coords, axis=1) % 3 == 0]
+va.set_colors(cells.T, color='yellow', basecolor='lightblue')
 va.vizualize(fixview=True)
 plt.show()

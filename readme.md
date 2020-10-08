@@ -16,38 +16,47 @@ It can be visualised after `colors` attribute is assigned.
 ![](mwe_out.png)
 
     arr = np.arange(90).reshape((6,3,5))
-    coords = np.broadcast(*np.indices(arr.shape)) #indices of every cell
-    cells = zip(*[c for c in coords if sum(c) % 3 == 0])
     va = VisualArray(arr)
-    va.set_colors(cells, color='yellow', basecolor='lightblue')
+    coords = va.get_indices() #indices of every cell
+    cells = coords[np.sum(coords, axis=1) % 3 == 0]
+    va.set_colors(cells.T, color='yellow', basecolor='lightblue')
     va.vizualize(fixview=True)
     plt.show()
 
 #### Example 2
-
+Alternative way to get indices
 ![](mwe2_out.png)
    
     arr = np.random.randint(100, size=60).reshape((2,6,5))
-    coords = np.broadcast(*np.indices(arr.shape)) #indices of every cell
-    cells = list(zip(*[c for c in coords if sum(c) % 3 == 0]))
-    
+    coords = np.array(list(np.broadcast(*np.indices(arr.shape))))
+    cells = coords[np.sum(coords, axis=1) % 3 == 0]
     fig = plt.figure()
     ax = fig.add_subplot(2, 1, 1, projection='3d')
     ax.set_title('top')
     va = VisualArray(arr, fig=fig, ax=ax)
-    va.set_colors(cells, color='yellow', basecolor='lightblue')
+    va.set_colors(cells.T, color='yellow', basecolor='lightblue')
     va.vizualize(fixview=True)
     
     ax = fig.add_subplot(2, 1, 2, projection='3d')
     ax.set_title('bottom')
     va = VisualArray(arr, fig=fig, ax=ax)
-    va.set_colors(cells, color='yellow', basecolor='lightblue')
+    va.set_colors(cells.T, color='yellow', basecolor='lightblue')
     va.vizualize(fixview=True)
     ax.elev = -30
     plt.show()
 
 #### Example 3
+![](chessboard_out.png)
 
+    arr = np.arange(64).reshape((1,8,8))
+    va = VisualArray(arr)
+    cells = va.get_indices_chequerwise(window=(1,1,1))
+    va.set_colors(cells.T, color='white', basecolor='grey')
+    va.vizualize(fixview=True, axis_labels=(None,None,None))
+    va.ax.dist = 12.5 #zoom out a little
+    plt.show()
+
+#### Example 4
 ![](flattening_out.png)
 
     import matplotlib.gridspec as gridspec
@@ -71,7 +80,7 @@ It can be visualised after `colors` attribute is assigned.
     plt.get_current_fig_manager().window.state('zoomed')
     plt.show()
     
-#### Example 4
+#### Example 5
 
 ![](dimwalking_out.png)
 
@@ -94,7 +103,7 @@ It can be visualised after `colors` attribute is assigned.
     ax.azim, ax.elev = -115, 24
     plt.show()
     
-### Example5
+#### Example 6
 
 ![](maxpooling_out.png)
 
@@ -135,7 +144,7 @@ It can be visualised after `colors` attribute is assigned.
     #va3.vizualize(fixview=True, axis_labels=('axis=0','axis=1','axis=2'))
     plt.show()
    
-### Example 6
+#### Example 7
 
 ![](recipe1_out.png)
 
@@ -181,7 +190,7 @@ It can be visualised after `colors` attribute is assigned.
     
     plt.show()
 
-### Example 7
+#### Example 8
 
 ![](recipe2_out.png)
 
@@ -209,7 +218,7 @@ It can be visualised after `colors` attribute is assigned.
     va.ax.azim, va.ax.elev = -108, 54
     plt.show()
 
-### Example 8
+#### Example 9
 
 ![](recipe3_out.png)
    
@@ -225,3 +234,4 @@ It can be visualised after `colors` attribute is assigned.
                  scale=0.7)
     va.ax.set_title('Why $(x+y)^3 = x^3+3x^2y+3xy^2+y^3$?')
     plt.show()
+
