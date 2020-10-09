@@ -4,8 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from numpyviz import VisualArray
 
-import matplotlib
-matplotlib.rcParams.update({'font.size': 8})
 arr = np.array([[r'$\times$', r'$x^2$', r'$y^2$', r'$z^2$', r'$-xy$', r'$-yz$', r'$-xz$'],
                 [r'$x$', r'$x^3$', r'$xy^2$', r'$xz^2$', r'$-x^2y$', r'$-xyz$', r'$-x^2z$'],
                 [r'$y$', r'$x^2y$', r'$y^3$', r'$yz^2$', r'$-xy^2$', r'$-y^2z$', r'$-xyz$'],

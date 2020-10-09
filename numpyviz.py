@@ -115,13 +115,13 @@ class VisualArray:
 
     def on_rotation(self, event):
         vrot_idx = [self.ax.elev > 0, True].index(True)
-        v_zorders = 10000 * np.array([(1, -1), (-1, 1)])[vrot_idx]
+        v_zorders = 100000 * np.array([(1, -1), (-1, 1)])[vrot_idx]
         for side, zorder in zip((self.side1, self.side4), v_zorders):
             for patch in side:
                 patch.stable_zorder = zorder
 
         hrot_idx = [self.ax.azim < -90, self.ax.azim < 0, self.ax.azim < 90, True].index(True)
-        h_zorders = 10000 * np.array([(1, 1, -1, -1), (-1, 1, 1, -1),
+        h_zorders = 100000 * np.array([(1, 1, -1, -1), (-1, 1, 1, -1),
                               (-1, -1, 1, 1), (1, -1, -1, 1)])[hrot_idx]
         sides = (self.side3, self.side2, self.side6, self.side5)
         for side, zorder in zip(sides, h_zorders):
@@ -151,10 +151,10 @@ class VisualArray:
         labels1 = (self.arr[0]).flatten()
         labels2 = (self.arr[-1]).flatten()
         for xyz, label in zip(surf_pos1, [f'${n}$' for n in labels1]):
-            t = self.text3d(xyz, label, zdir="z", zorder=10000, size=scale, usetex=True, ec="none", fc="k")
+            t = self.text3d(xyz, label, zdir="z", zorder=100000, size=scale, usetex=True, ec="none", fc="k")
             self.side1.append(t)
         for xyz, label in zip(surf_pos2, [f'${n}$' for n in labels2]):
-            t = self.text3d(xyz, label, zdir="-z", zorder=-10000, size=scale, usetex=True, ec="none", fc="k")
+            t = self.text3d(xyz, label, zdir="-z", zorder=-100000, size=scale, usetex=True, ec="none", fc="k")
             self.side4.append(t)
 
         # labelling surfaces of side2 and side5
@@ -165,10 +165,10 @@ class VisualArray:
         labels1 = (self.arr[:, -1]).flatten()
         labels2 = (self.arr[::-1, 0].T[::-1]).flatten()
         for xyz, label in zip(surf_pos1, [f'${n}$' for n in labels1]):
-            t = self.text3d(xyz, label, zdir="y", zorder=10000, size=scale, usetex=True, ec="none", fc="k")
+            t = self.text3d(xyz, label, zdir="y", zorder=100000, size=scale, usetex=True, ec="none", fc="k")
             self.side2.append(t)
         for xyz, label in zip(surf_pos2, [f'${n}$' for n in labels2]):
-            t = self.text3d(xyz, label, zdir="-y", zorder=-10000, size=scale, usetex=True, ec="none", fc="k")
+            t = self.text3d(xyz, label, zdir="-y", zorder=-100000, size=scale, usetex=True, ec="none", fc="k")
             self.side5.append(t)
 
         # labelling surfaces of side3 and side6
@@ -178,10 +178,10 @@ class VisualArray:
         labels1 = (self.arr[:, ::-1, -1]).flatten()
         labels2 = (self.arr[:, ::-1, 0]).flatten()
         for xyz, label in zip(surf_pos1, [f'${n}$' for n in labels1]):
-            t = self.text3d(xyz, label, zdir="x", zorder=-10000, size=scale, usetex=True, ec="none", fc="k")
+            t = self.text3d(xyz, label, zdir="x", zorder=-100000, size=scale, usetex=True, ec="none", fc="k")
             self.side6.append(t)
         for xyz, label in zip(surf_pos2, [f'${n}$' for n in labels2]):
-            t = self.text3d(xyz, label, zdir="-x", zorder=10000, size=scale, usetex=True, ec="none", fc="k")
+            t = self.text3d(xyz, label, zdir="-x", zorder=100000, size=scale, usetex=True, ec="none", fc="k")
             self.side3.append(t)
 
     def drawaxis(self, axis_labels=('axis=0', 'axis=1', 'axis=2')):
