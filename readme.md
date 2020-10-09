@@ -234,7 +234,7 @@ Alternative way to get indices
     plt.show()
 
 #### Example 10
-Warning: this might be quite slow to render visual array of shape (30, 30, 3)
+Warning: this might be quite slow to render visual array of shape (32, 32, 3)
 
 ![](catenize_front.png)
 
