@@ -140,7 +140,7 @@ class VisualArray:
         for col in self.ax.collections:
             col.stable_zorder = col.zorder
 
-    def labelize(self, scale=1):
+    def labelize(self, scale=1, usetex=True):
         self.fig.canvas.mpl_connect('motion_notify_event', self.on_rotation)
         s = self.arr.shape
         self.side1, self.side2, self.side3, self.side4, self.side5, self.side6 = [], [], [], [], [], []
@@ -150,11 +150,15 @@ class VisualArray:
         surf_pos2 = np.insert(surf, 2, 0, axis=1)
         labels1 = (self.arr[0]).flatten()
         labels2 = (self.arr[-1]).flatten()
-        for xyz, label in zip(surf_pos1, [f'${n}$' for n in labels1]):
-            t = self.text3d(xyz, label, zdir="z", zorder=100000, size=scale, usetex=True, ec="none", fc="k")
+        if usetex:
+            l1, l2 = [f'${n}$' for n in labels1], [f'${n}$' for n in labels2]
+        else:
+            l1, l2 = [f'{n}' for n in labels1], [f'{n}' for n in labels2]
+        for xyz, label in zip(surf_pos1, l1):
+            t = self.text3d(xyz, label, zdir="z", zorder=100000, size=scale, usetex=usetex, ec="none", fc="k")
             self.side1.append(t)
-        for xyz, label in zip(surf_pos2, [f'${n}$' for n in labels2]):
-            t = self.text3d(xyz, label, zdir="-z", zorder=-100000, size=scale, usetex=True, ec="none", fc="k")
+        for xyz, label in zip(surf_pos2, l2):
+            t = self.text3d(xyz, label, zdir="-z", zorder=-100000, size=scale, usetex=usetex, ec="none", fc="k")
             self.side4.append(t)
 
         # labelling surfaces of side2 and side5
@@ -164,11 +168,15 @@ class VisualArray:
         surf_pos2 = np.insert(surf, 1, self.arr.shape[1], axis=1)
         labels1 = (self.arr[:, -1]).flatten()
         labels2 = (self.arr[::-1, 0].T[::-1]).flatten()
-        for xyz, label in zip(surf_pos1, [f'${n}$' for n in labels1]):
-            t = self.text3d(xyz, label, zdir="y", zorder=100000, size=scale, usetex=True, ec="none", fc="k")
+        if usetex:
+            l1, l2 = [f'${n}$' for n in labels1], [f'${n}$' for n in labels2]
+        else:
+            l1, l2 = [f'{n}' for n in labels1], [f'{n}' for n in labels2]
+        for xyz, label in zip(surf_pos1, l1):
+            t = self.text3d(xyz, label, zdir="y", zorder=100000, size=scale, usetex=usetex, ec="none", fc="k")
             self.side2.append(t)
-        for xyz, label in zip(surf_pos2, [f'${n}$' for n in labels2]):
-            t = self.text3d(xyz, label, zdir="-y", zorder=-100000, size=scale, usetex=True, ec="none", fc="k")
+        for xyz, label in zip(surf_pos2, l2):
+            t = self.text3d(xyz, label, zdir="-y", zorder=-100000, size=scale, usetex=usetex, ec="none", fc="k")
             self.side5.append(t)
 
         # labelling surfaces of side3 and side6
@@ -177,11 +185,15 @@ class VisualArray:
         surf_pos2 = np.insert(surf, 0, 0, axis=1)
         labels1 = (self.arr[:, ::-1, -1]).flatten()
         labels2 = (self.arr[:, ::-1, 0]).flatten()
-        for xyz, label in zip(surf_pos1, [f'${n}$' for n in labels1]):
-            t = self.text3d(xyz, label, zdir="x", zorder=-100000, size=scale, usetex=True, ec="none", fc="k")
+        if usetex:
+            l1, l2 = [f'${n}$' for n in labels1], [f'${n}$' for n in labels2]
+        else:
+            l1, l2 = [f'{n}' for n in labels1], [f'{n}' for n in labels2]
+        for xyz, label in zip(surf_pos1, l1):
+            t = self.text3d(xyz, label, zdir="x", zorder=-100000, size=scale, usetex=usetex, ec="none", fc="k")
             self.side6.append(t)
-        for xyz, label in zip(surf_pos2, [f'${n}$' for n in labels2]):
-            t = self.text3d(xyz, label, zdir="-x", zorder=100000, size=scale, usetex=True, ec="none", fc="k")
+        for xyz, label in zip(surf_pos2, l2):
+            t = self.text3d(xyz, label, zdir="-x", zorder=100000, size=scale, usetex=usetex, ec="none", fc="k")
             self.side3.append(t)
 
     def drawaxis(self, axis_labels=('axis=0', 'axis=1', 'axis=2')):
@@ -218,9 +230,9 @@ class VisualArray:
             x, y, z = xyz
             self.colors[x,y,z] = [self.colorFader(c, color, r=r) for c in self.colors[x,y,z]]
 
-    def vizualize(self, fixview=False, axis_labels=('axis=0', 'axis=1', 'axis=2'), scale=1):
+    def vizualize(self, fixview=False, axis_labels=('axis=0', 'axis=1', 'axis=2'), scale=1, usetex=True):
         self.voxelize()
-        self.labelize(scale)
+        self.labelize(scale, usetex=usetex)
         self.drawaxis(axis_labels=axis_labels)
         if fixview:
             self.fix_view()
@@ -239,8 +251,11 @@ class VisualArray:
         B = np.array([[1, 0, 0, tr1], [0, 1, 0, tr2], [0, 0, 1, tr3], [0, 0, 0, 1]])
         self.ax.get_proj = lambda: np.dot(np.dot(np.dot(Axes3D.get_proj(self.ax), B), T), A)
 
-    def get_indices(self):
-        return np.array(list(np.broadcast(*np.indices(self.arr.shape))))
+    def get_indices(self, shape=None):
+        if shape is None:
+            return np.array(list(np.ndindex(self.arr.shape)))
+        else:
+            return np.array(list(np.ndindex(shape)))
 
     def reshape(self, *args):
         #assigns reshaped copy to both self.arr and self.colors

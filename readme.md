@@ -28,7 +28,7 @@ Alternative way to get indices
 ![](mwe2_out.png)
    
     arr = np.random.randint(100, size=60).reshape((2,6,5))
-    coords = np.array(list(np.broadcast(*np.indices(arr.shape))))
+    coords = np.array(list(np.ndindex(arr.shape)))
     cells = coords[np.sum(coords, axis=1) % 3 == 0]
     fig = plt.figure()
     ax = fig.add_subplot(2, 1, 1, projection='3d')
@@ -233,7 +233,7 @@ Alternative way to get indices
     va.ax.set_title('Why $(x+y)^3 = x^3+3x^2y+3xy^2+y^3$?')
     plt.show()
 
-#### Example 10
+#### Example 10a
 Warning: this might be quite slow to render visual array of shape (32, 32, 3)
 
 ![](catenize_front.png)
@@ -270,5 +270,47 @@ Warning: this might be quite slow to render visual array of shape (32, 32, 3)
     va.ax.azim = -140 #change to 40 to see another back side
     va.ax.elev = 20
     va.ax.dist = 8 #zoom in a little
+    plt.get_current_fig_manager().window.state('zoomed')
+    plt.show()
+    
+#### Example 10b
+Warning: this might be quite slow to render visual array of shape (32, 32, 1). If
+you need to convert single color code to rgb, use:
+
+    (np.array(matplotlib.colors.to_rgb('#EFF1DE'))*255).astype(int)
+
+![](fullcat_out.png)
+
+![](fullcat_zoomin.png)
+
+    def tohex(arr):
+        def tohexarr(x):
+            form = list('#000000')
+            c = np.base_repr(x, base=16)
+            form[-len(c):] = list(c)
+            return ''.join(form)
+        arr = np.asarray(arr, dtype='uint32')
+        hexarr = np.vectorize(tohexarr)
+        return hexarr((arr[:, :, 0]<<16) + (arr[:, :, 1]<<8) + arr[:, :, 2])
+    
+    def tolabels(arr):
+        def tolabelarr(x):
+            return r'\begin{array}{l}\,\,\sharp ' + x[1:4] + r'\\ \,\,\,\, ' + x[4:7] + r'\\ ' + r'\\ ' + r'\\ ' + r'\end{array}'
+        labelarr = np.vectorize(tolabelarr)
+        return labelarr(arr)
+    
+    from PIL import Image
+    test_image = Image.open('cat.jpg')
+    test_image = test_image.resize((32, 32), Image.ANTIALIAS)
+    test_image = np.array(test_image).astype(int)
+    arr = tohex(test_image)
+    
+    va = VisualArray(arr)
+    cells = va.get_indices()
+    x,y,z = cells.T
+    va.set_colors(cells.T, color=va.arr[x,y,z])
+    va.arr = tolabels(va.arr)
+    va.vizualize(fixview=True, scale=0.35, axis_labels=(None,None,None))
+    va.ax.dist = 11.5 #zoom out a little; change to 3.5 for higher zoom
     plt.get_current_fig_manager().window.state('zoomed')
     plt.show()

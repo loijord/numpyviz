@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from numpyviz import VisualArray
 
 arr = np.random.randint(100, size=60).reshape((2, 6, 5))
-coords = np.array(list(np.broadcast(*np.indices(arr.shape))))
+coords = np.array(list(np.ndindex(arr.shape)))
 cells = coords[np.sum(coords, axis=1) % 3 == 0]
 fig = plt.figure()
 ax = fig.add_subplot(2, 1, 1, projection='3d')
