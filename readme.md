@@ -319,6 +319,8 @@ you need to convert single color code to rgb, use:
 
 I've used to call it Sputnik because it helped to visualise a first [`quite hard`](https://stackoverflow.com/a/64309972/3044825) problem on StackOverflow
 
+![](sputnik1_out.png)
+
     import numpy as np
     import matplotlib.pyplot as plt
     from numpyviz import VisualArray
