@@ -1,6 +1,11 @@
 This is a program that helps to visualise methods of `numpy` arrays. 
 It is designed to work in 3 dimensions and can also be extended up to 6 dimensions.
 
+### Installation
+
+    git + clone https://github.com/loijord/numpyviz
+    cd numpyviz
+
 ### Usage
 Import these packages at the beginning of file:
 
@@ -314,12 +319,12 @@ you need to convert single color code to rgb, use:
     va.ax.dist = 11.5 #zoom out a little; change to 3.5 for higher zoom
     plt.get_current_fig_manager().window.state('zoomed')
     plt.show()
-    
-####Sputnik 1
 
-I've used to call it Sputnik because it helped to visualise a first [`quite hard`](https://stackoverflow.com/a/64309972/3044825) problem on StackOverflow
+### Sputniks
 
-![](sputnik1_out.png)
+I've used to call it Sputnik1 because it helped to visualise a first [`quite hard problem`](https://stackoverflow.com/a/64309972/3044825) on StackOverflow
+
+![](sputnik_gallery/sputnik1_out.png)
 
     import numpy as np
     import matplotlib.pyplot as plt
@@ -352,3 +357,7 @@ I've used to call it Sputnik because it helped to visualise a first [`quite hard
     va.vizualize(fixview=True)
     ax.dist = 12
     plt.show()
+    
+All the illustrations of `Sputniks` have its home at [`sputnik_gallery`](sputnik_gallery).
+
+As well as their scripts [`sputnik_scripts`](sputnik_scripts).

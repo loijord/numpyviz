@@ -196,18 +196,18 @@ class VisualArray:
             t = self.text3d(xyz, label, zdir="-x", zorder=100000, size=scale, usetex=usetex, ec="none", fc="k")
             self.side3.append(t)
 
-    def drawaxis(self, axis_labels=('axis=0', 'axis=1', 'axis=2')):
+    def drawaxis(self, axis_labels=('axis=0', 'axis=1', 'axis=2'), useaxistex=False):
         # labelling axis
         s = self.arr.shape
         if axis_labels[0] is not None:
             self.text3d((-0.5, -0.25, s[0] / 2), axis_labels[0], angle=0.5 * np.pi, zdir='y', size=.5,
-                        usetex=False, ec="purple", fc="purple")
+                        usetex=useaxistex, ec="purple", fc="purple")
         if axis_labels[1] is not None:
             self.text3d((0, s[1]/2, 0), axis_labels[1], angle=-0.5*np.pi, zdir='z', size=.5,
-                        usetex=False, ec="purple", fc="purple")
+                        usetex=useaxistex, ec="purple", fc="purple")
         if axis_labels[2] is not None:
             self.text3d((s[2] / 2, 0, 0), axis_labels[2], zdir='z', size=.5,
-                        usetex=False, ec="purple", fc="purple")
+                        usetex=useaxistex, ec="purple", fc="purple")
 
     @staticmethod
     def colorFader(c1, c2, r=0.0):
@@ -230,10 +230,10 @@ class VisualArray:
             x, y, z = xyz
             self.colors[x,y,z] = [self.colorFader(c, color, r=r) for c in self.colors[x,y,z]]
 
-    def vizualize(self, fixview=False, axis_labels=('axis=0', 'axis=1', 'axis=2'), scale=1, usetex=True):
+    def vizualize(self, fixview=False, axis_labels=('axis=0', 'axis=1', 'axis=2'), scale=1, usetex=True, useaxistex=False):
         self.voxelize()
         self.labelize(scale, usetex=usetex)
-        self.drawaxis(axis_labels=axis_labels)
+        self.drawaxis(axis_labels=axis_labels, useaxistex=useaxistex)
         if fixview:
             self.fix_view()
         plt.axis('off')
