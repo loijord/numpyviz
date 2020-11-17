@@ -6,6 +6,11 @@ It is designed to work in 3 dimensions and can also be extended up to 6 dimensio
     git + clone https://github.com/loijord/numpyviz
     cd numpyviz
 
+### Requirements
+
+    matplotlib == 3.3.0
+    numpy == 1.19.1
+    
 ### Usage
 Import these packages at the beginning of file:
 
