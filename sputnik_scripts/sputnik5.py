@@ -43,7 +43,7 @@ arr = np.sum((a[:,None,:] * b), axis=2)
 va5 = VisualArray(arr, fig=fig, ax=ax)
 va5.ax.set_title(f'np.sum((a[:,None,:] * b), axis=2) \n of shape=(2, 3)')
 va5.set_colors(va5.get_indices().T, color='lightgreen', basecolor='aqua')
-va5.vizualize(fixview=True, usetex=False, scale=0.8)
+va5.vizualize(fixview=True, axis_labels=(None, 'axis=0', 'axis=1'), usetex=False, scale=0.8)
 va5.ax.dist = 12
 
 ax = fig.add_subplot(2, 3, 6, projection='3d')
@@ -52,7 +52,7 @@ va6 = VisualArray(arr, fig=fig, ax=ax)
 va6.arr = np.array([[[format(n, '.10g') for n in m] for m in o] for o in va6.arr])
 va6.ax.set_title(f'np.sum((a[:,None,:] * b), axis=2)/c \n of shape=(2, 3)')
 va6.set_colors(va6.get_indices().T, color='lightgreen', basecolor='aqua')
-va6.vizualize(fixview=True, usetex=False, scale=0.7)
+va6.vizualize(fixview=True, axis_labels=(None, 'axis=0', 'axis=1'), usetex=False, scale=0.7)
 va6.ax.dist = 12
 plt.get_current_fig_manager().window.state('zoomed')
 plt.show()
