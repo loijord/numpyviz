@@ -20,7 +20,37 @@ Import these packages at the beginning of file:
     
 Every instance of `VisualArray` has an `arr` attribute which is `numpy` array.
 It can be visualised after `colors` attribute is assigned.
+#### Demo
 
+![](demo_out.png)
+
+This example demonstrates a very basic usage of VisualArray initialisation and color assignment
+
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from numpyviz import VisualArray
+
+    fig = plt.figure()
+    titles = ['demo1', 'demo2']
+
+    for i, title in enumerate(titles):
+        ax = fig.add_subplot(1, 2, 1 + i, projection='3d')
+        ax.set_title(title)
+        arr = np.arange(24).reshape((2, 3, 4))
+        va = VisualArray(arr, fig=fig, ax=ax)
+        cells = va.get_indices()[::5] # make some fun pattern
+        va.set_colors(cells.T, color='yellow', basecolor='lightblue')
+        ax.dist = 15
+        va.vizualize(fixview=True)
+
+    plt.show()
+    # va.get_indices()[::5]:
+    ''' 
+    [[0 0 0]
+     [0 1 1]
+     [0 2 2]
+     [1 0 3]
+     [1 2 0]]'''
 #### Example 1
 
 ![](mwe_out.png)
