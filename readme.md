@@ -117,70 +117,70 @@ Alternative way to get indices
 
 ![](maxpooling_out.png)
 
-# After some break, improve visual view of axis labels and upload demo for this problem:
-# https://stackoverflow.com/questions/70444407/why-is-4d-realisation-of-max-pooling-in-numpy-misleading
+    # After some break, improve visual view of axis labels and upload demo for this problem:
+    # https://stackoverflow.com/questions/70444407/why-is-4d-realisation-of-max-pooling-in-numpy-misleading
 
-import numpy as np
-import matplotlib.pyplot as plt
-from numpyviz import VisualArray
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from numpyviz import VisualArray
 
-arr = np.random.randint(99, size=(1,8,12))
-w = (2, 4)
+    arr = np.random.randint(99, size=(1,8,12))
+    w = (2, 4)
 
-print(arr.reshape(4, 2, 3, 4))
-print('-'*50)
-print(arr.reshape(4, 2, 3, 4).max(axis=1))
-print('-'*50)
-print(arr.reshape(4, 2, 3, 4).max(axis=3))
-print('-'*50)
-print(arr.reshape(4, 2, 3, 4).max(axis=(1,3)))
+    print(arr.reshape(4, 2, 3, 4))
+    print('-'*50)
+    print(arr.reshape(4, 2, 3, 4).max(axis=1))
+    print('-'*50)
+    print(arr.reshape(4, 2, 3, 4).max(axis=3))
+    print('-'*50)
+    print(arr.reshape(4, 2, 3, 4).max(axis=(1,3)))
 
 
-fig = plt.figure()
-ax = fig.add_subplot(1, 3, 1, projection='3d')
-ax.set_title('arr')
-va = VisualArray(arr, fig=fig, ax=ax) #indices of every cell
-cells = va.get_indices_chequerwise(window=(1,)+w)
-va.set_colors(cells.T, color='lawngreen', basecolor='aqua')
-va.vizualize(fixview=True, axis_labels=(None, 'axis=0', 'axis=1'))
+    fig = plt.figure()
+    ax = fig.add_subplot(1, 3, 1, projection='3d')
+    ax.set_title('arr')
+    va = VisualArray(arr, fig=fig, ax=ax) #indices of every cell
+    cells = va.get_indices_chequerwise(window=(1,)+w)
+    va.set_colors(cells.T, color='lawngreen', basecolor='aqua')
+    va.vizualize(fixview=True, axis_labels=(None, 'axis=0', 'axis=1'))
 
-ax = fig.add_subplot(1, 3, 2, projection='3d')
-va2 = VisualArray(va.arr, va.colors, fig=fig, ax=ax) #shape: (1, 8, 12)
-shape = (va2.arr.shape[1]//w[0], w[0], va2.arr.shape[2]//w[1], w[1])
-ax.set_title(f'arr.reshape{shape}')
-va2.reshape(shape) #shape: (4, 2, 3, 4)
-va2.permute(shape)
-va2.vizualize(fixview=True, axis_labels=('axis=0,3','axis=1','axis=2'))
+    ax = fig.add_subplot(1, 3, 2, projection='3d')
+    va2 = VisualArray(va.arr, va.colors, fig=fig, ax=ax) #shape: (1, 8, 12)
+    shape = (va2.arr.shape[1]//w[0], w[0], va2.arr.shape[2]//w[1], w[1])
+    ax.set_title(f'arr.reshape{shape}')
+    va2.reshape(shape) #shape: (4, 2, 3, 4)
+    va2.permute(shape)
+    va2.vizualize(fixview=True, axis_labels=('axis=0,3','axis=1','axis=2'))
 
-def argmin(arr):
-    #bug...
-    a3 = arr.argmin(axis=(1, 3))
-    a1, a2 = np.indices((arr.shape[0], arr.shape[2]))
-    x, y, z = zip(*np.broadcast(a1, a2, a3))
-    return x, y, z
+    def argmin(arr):
+        #bug...
+        a3 = arr.argmin(axis=(1, 3))
+        a1, a2 = np.indices((arr.shape[0], arr.shape[2]))
+        x, y, z = zip(*np.broadcast(a1, a2, a3))
+        return x, y, z
 
-ax = fig.add_subplot(1, 3, 3, projection='3d')
-arr3 = arr.reshape(shape).max(axis=(1, 3))[:,:,None]
-va3 = VisualArray(arr3, fig=fig, ax=ax) #indices of every cell
+    ax = fig.add_subplot(1, 3, 3, projection='3d')
+    arr3 = arr.reshape(shape).max(axis=(1, 3))[:,:,None]
+    va3 = VisualArray(arr3, fig=fig, ax=ax) #indices of every cell
 
-cells = va3.get_indices_chequerwise(window=(1,1,1))
-va3.set_colors(cells.T, color='lawngreen', basecolor='aqua')
-dark_cells = va3.get_indices_chequerwise(window=(1,3,1))
-va3.mix_colors(dark_cells.T, 'black', r=0.4)
+    cells = va3.get_indices_chequerwise(window=(1,1,1))
+    va3.set_colors(cells.T, color='lawngreen', basecolor='aqua')
+    dark_cells = va3.get_indices_chequerwise(window=(1,3,1))
+    va3.mix_colors(dark_cells.T, 'black', r=0.4)
 
-va3.ax.set_title(f'arr.reshape{shape}.max(axis=(0,2))')
-va3.ax.dist = 15
-va3.vizualize(fixview=True, axis_labels=('axis=3', 'axis=1', None))
+    va3.ax.set_title(f'arr.reshape{shape}.max(axis=(0,2))')
+    va3.ax.dist = 15
+    va3.vizualize(fixview=True, axis_labels=('axis=3', 'axis=1', None))
 
-print(f'arr = np.random.randint(99, size=(1,8,12)) =')
-print(arr)
-print('-'*50)
-print(f'arr.reshape{shape}.max(axis=(0, 2)) =')
-print(arr.reshape(shape).max(axis=(0, 2)))
-print('-'*50)
-print(f'arr.reshape{shape}.max(axis=(1, 3)) =')
-print(arr.reshape(shape).max(axis=(1, 3)))
-plt.show()
+    print(f'arr = np.random.randint(99, size=(1,8,12)) =')
+    print(arr)
+    print('-'*50)
+    print(f'arr.reshape{shape}.max(axis=(0, 2)) =')
+    print(arr.reshape(shape).max(axis=(0, 2)))
+    print('-'*50)
+    print(f'arr.reshape{shape}.max(axis=(1, 3)) =')
+    print(arr.reshape(shape).max(axis=(1, 3)))
+    plt.show()
    
 #### Example 7
 
