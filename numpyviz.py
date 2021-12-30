@@ -1,6 +1,7 @@
 #Special thanks to https://stackoverflow.com/a/37423823/3044825
 #Attention: https://github.com/matplotlib/matplotlib/issues/14175
 #is used as workaround and Axes3D (+CTRL+ALT+B) in Line 448.
+
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 from matplotlib.text import TextPath
@@ -200,13 +201,13 @@ class VisualArray:
         # labelling axis
         s = self.arr.shape
         if axis_labels[0] is not None:
-            self.text3d((-0.5, -0.25, s[0] / 2), axis_labels[0], angle=0.5 * np.pi, zdir='y', size=.5,
+            self.text3d((0.5+s[2], -0.25, s[0]/2 - 1.5), axis_labels[0], angle=0.5 * np.pi, zdir='y', size=1.,
                         usetex=useaxistex, ec="purple", fc="purple")
         if axis_labels[1] is not None:
-            self.text3d((0, s[1]/2, 0), axis_labels[1], angle=-0.5*np.pi, zdir='z', size=.5,
+            self.text3d((-0.5, s[1]/2 + 1.5, 0), axis_labels[1], angle=-0.5*np.pi, zdir='z', size=1.,
                         usetex=useaxistex, ec="purple", fc="purple")
         if axis_labels[2] is not None:
-            self.text3d((s[2] / 2, 0, 0), axis_labels[2], zdir='z', size=.5,
+            self.text3d((s[2]/2 - 1.5, -0.5, 0), axis_labels[2], zdir='z', size=1.,
                         usetex=useaxistex, ec="purple", fc="purple")
 
     @staticmethod
