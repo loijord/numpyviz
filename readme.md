@@ -115,7 +115,7 @@ Alternative way to get indices
     
 #### Example 6 (NEW!)
 
-![](maxpooling_out.png)
+![](maxpooling_outt.png)
 
     # After some break, improve visual view of axis labels and upload demo for this problem:
     # https://stackoverflow.com/questions/70444407/why-is-4d-realisation-of-max-pooling-in-numpy-misleading
