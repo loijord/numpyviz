@@ -22,7 +22,7 @@ Every instance of `VisualArray` has an `arr` attribute which is `numpy` array.
 It can be visualised after `colors` attribute is assigned.
 #### Demo
 
-![](demo_out.png)
+![](demo_out.PNG)
 
 This example demonstrates a very basic usage of VisualArray initialisation and color assignment
 
